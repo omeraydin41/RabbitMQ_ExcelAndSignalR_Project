@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+<style>
+    .excel-btn {
+        background: linear-gradient(135deg, #27ae60, #229954);
+        border: none;
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.8rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 6px 25px rgba(39, 174, 96, 0.4);
+    }
+
+        .excel-btn::before {
+            content: '📊';
+            font-size: 1.3rem;
+        }
+
+        .excel-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(39, 174, 96, 0.5);
+            color: white;
+        }
+</style>
+
+<h1>Index</h1>
+<a asp-controller="Product" asp-action="CreateProductExcel" class="excel-btn">Excel Oluştur</a>

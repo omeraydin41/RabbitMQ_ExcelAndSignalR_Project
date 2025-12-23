@@ -1,0 +1,119 @@
+﻿@{
+    ViewData["Title"] = "Files";
+    Layout = null;
+}
+@model List<UserFile>
+
+<style>
+    /* Ana Konteyner */
+    .file-grid-container {
+        display: grid;
+        gap: 1rem;
+        margin-top: 20px;
+    }
+
+    /* Başlık Satırı Tasarımı */
+    .file-grid-header {
+        display: grid;
+        grid-template-columns: 2fr 1.5fr 1fr 1fr;
+        font-weight: bold;
+        padding: 15px;
+        background-color: #f1f3f5;
+        border-radius: 10px;
+        color: #495057;
+    }
+
+    /* Veri Satırı/Kart Tasarımı */
+    .file-grid-row {
+        display: grid;
+        grid-template-columns: 2fr 1.5fr 1fr 1fr;
+        align-items: center;
+        padding: 15px;
+        background: #ffffff;
+        border-radius: 10px;
+        border: 1px solid #e9ecef;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+
+        .file-grid-row:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-color: #dee2e6;
+        }
+
+    /* Durum Rozeti */
+    .status-badge {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+
+    /* Mobil Uyumluluk için Escape (@@) Kullanımı */
+    @@media (max-width: 768px) {
+        .file-grid-header {
+            display: none;
+        }
+
+        .file-grid-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            border-left: 5px solid #0d6efd;
+        }
+
+            .file-grid-row div::before {
+                content: attr(data-label) ": ";
+                font-weight: bold;
+                color: #adb5bd;
+                font-size: 0.8rem;
+                display: block;
+                margin-bottom: 2px;
+            }
+    }
+</style>
+
+<div class="container py-4">
+    <h1 class="mb-4 fw-bold">@ViewData["Title"]</h1>
+
+    <div class="file-grid-container">
+        <div class="file-grid-header">
+            <div>File Name</div>
+            <div>Created Date</div>
+            <div>Status</div>
+            <div class="text-end pe-4">Action</div>
+        </div>
+
+        @foreach (var item in Model)
+        {
+            <div class="file-grid-row">
+                <div data-label="File Name" class="fw-bold text-dark">
+                    @item.FileName
+                </div>
+
+                <div data-label="Created Date" class="text-muted small">
+                    @item.GetCreatedDate
+                </div>
+
+                <div data-label="Status">
+                    @if (item.FileStatus == FileStatus.Completed)
+                    {
+                        <span class="status-badge bg-success text-white">Completed</span>
+                    }
+                    else
+                    {
+                        <span class="status-badge bg-warning text-dark">Creating...</span>
+                    }
+                </div>
+
+                <div data-label="Action" class="text-end">
+                    <a href="~/files/@item.FilePath"
+                       class="btn btn-primary btn-sm rounded-pill px-4 @(item.FileStatus == FileStatus.Creating ? "disabled" : "")">
+                        Download
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</div>
