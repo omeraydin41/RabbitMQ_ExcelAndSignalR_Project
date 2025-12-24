@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ.Client;
 using RabbitMQ_ExcelAndSignalR_Project.Models;
+using RabbitMQ_ExcelAndSignalR_Project.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,6 +23,16 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
+
+//rabbitmq
+builder.Services.AddSingleton(sp => new ConnectionFactory
+{
+    Uri = new Uri(builder.Configuration.GetConnectionString("RabbitMQ")),
+    
+});
+builder.Services.AddSingleton<RabbitMQPublisher>();
+builder.Services.AddSingleton<RabbitMQClientService>();
+
 
 var app = builder.Build();
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ_ExcelAndSignalR_Project.Models;
+using RabbitMQ_ExcelAndSignalR_Project.Services;
 
 namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
 {
@@ -14,10 +15,13 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
         private readonly AppDbContext _context;//AppDbContext classından aldık nesneyı vt yonetimi için 
         private readonly UserManager<IdentityUser> _userManager;// Microsoft.AspNetCore.Identity : private değişken başına _ konulur kültür olarak 
 
-        public ProductController(AppDbContext context, UserManager<IdentityUser> userManager)
+        private readonly RabbitMQPublisher _rabbitMQPublisher; //publisher classından nesne 
+
+        public ProductController(AppDbContext context, UserManager<IdentityUser> userManager,RabbitMQPublisher rabbitMQPublisher)
         {
             _context = context;
-            this._userManager = userManager;
+            _userManager = userManager;
+            _rabbitMQPublisher = rabbitMQPublisher;
         }
 
         public IActionResult Index()
@@ -44,6 +48,11 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
 
 
             await _context.SaveChangesAsync();
+
+
+
+           await  _rabbitMQPublisher.PublishAsync(new Shared.CreateExcelMessage() {FileId=userFile.Id,UserId=user.Id });
+
 
 
             //: view back uzerınden taşınamaz aynı requst uzerınde data taşır  
