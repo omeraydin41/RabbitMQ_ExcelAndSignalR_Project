@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RabbitMQ_ExcelAndSignalR_Pr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shared", "Shared\Shared.csproj", "{9DE47398-7689-4C01-B936-58907DBE36C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FileCreateWorkerService", "FileCreateWorkerService\FileCreateWorkerService.csproj", "{8BFEE17E-80E2-422F-990F-94B9218AA8A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{9DE47398-7689-4C01-B936-58907DBE36C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DE47398-7689-4C01-B936-58907DBE36C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DE47398-7689-4C01-B936-58907DBE36C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8BFEE17E-80E2-422F-990F-94B9218AA8A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BFEE17E-80E2-422F-990F-94B9218AA8A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BFEE17E-80E2-422F-990F-94B9218AA8A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BFEE17E-80E2-422F-990F-94B9218AA8A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
