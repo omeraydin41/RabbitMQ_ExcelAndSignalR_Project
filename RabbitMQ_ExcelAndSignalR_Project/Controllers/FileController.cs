@@ -18,6 +18,7 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
 
 
         //değişekn bılgılerı worker a gondermek ıcın kullanılacak
+        [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file,int fileId)
         //gelen dosya Iform fıle uzerınden alınacaktir / userı ıd ıse dosya hangi kullanıcı için / file ıd ise hangı dosya excel oldu 
         {

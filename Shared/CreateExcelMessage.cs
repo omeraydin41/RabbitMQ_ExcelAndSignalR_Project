@@ -8,7 +8,7 @@ namespace Shared
 {
     public class CreateExcelMessage
     {
-        public string UserId { get; set; }//HANGI KULLANICI ICIN EXCEL OLUŞACAK 
+        //public string UserId { get; set; }//HANGI KULLANICI ICIN EXCEL OLUŞACAK // gerek kalmadı file ıd den bulunuyor 
         public int FileId { get; set; }  
     }
 }
