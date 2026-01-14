@@ -269,6 +269,69 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-signals/1.0.0/js-signals.min.js" 
+    integrity="sha512-ijOBjYzQBf0Nl9+yA2fkdgBSUQBs9+Jn7V8Rw6eflJZY6cKfKkt7W0vuLpGsnVqJaFYJEwcZWUxA1YLS1EN03g=="
+    crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            // Sayfa tamamen yüklendiğinde çalışır
+
+            var connection = new signalR.HubConnectionBuilder()
+                .withUrl("/MyHub") // SignalR Hub adresi belirlenir
+                .build(); // Hub bağlantısı oluşturulur
+
+            start(); // SignalR bağlantısını başlatan fonksiyon çağrılır
+
+            function start() {
+                // SignalR bağlantısını başlatan fonksiyon
+
+                connection.start() // Hub ile bağlantı kurmayı dener
+                    .then() // Bağlantı başarılıysa bir şey yapma (boş)
+                    .catch((err) => {
+                        // Bağlantı başarısız olursa burası çalışır
+
+                        console.log(err); // Hata konsola yazdırılır
+
+                        setTimeout(() => start(), 2000);
+                        // 2 saniye sonra tekrar bağlantı kurmayı dener (retry mekanizması)
+                    })
+            }
+
+            connection.on("CompletedFile", () => {
+                // Server tarafından "CompletedFile" eventi tetiklendiğinde çalışır
+
+                console.log("excel oluşturma bitti");
+                // Excel oluşturma işleminin bittiği bilgisi loglanır
+
+                Swal.fire({
+                    position: 'top-end', // Bildirim ekranın sağ üstünde gösterilir
+                    icon: 'success', // Bildirim tipi başarı
+                    title: 'Excel dosyanız hazır', // Bildirim başlığı
+                    showConfirmButton: true, // Onay butonu gösterilir
+                    confirmButtonText: "Dosyalarım" // Onay butonunun yazısı
+                }).then((result) => {
+                    // Kullanıcı bildirime tıkladığında çalışır
+
+                    if (result.isConfirmed) {
+                        // Kullanıcı onay butonuna bastıysa
+
+                        window.location = "/product/files";
+                        // Kullanıcı dosyalarım sayfasına yönlendirilir
+                    }
+                })
+            });
+        })
+    </script>
+
+
+
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

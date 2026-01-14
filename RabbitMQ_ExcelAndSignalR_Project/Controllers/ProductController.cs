@@ -51,7 +51,7 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
 
 
 
-           await  _rabbitMQPublisher.PublishAsync(new Shared.CreateExcelMessage() {FileId=userFile.Id,UserId=user.Id });
+           await  _rabbitMQPublisher.PublishAsync(new Shared.CreateExcelMessage() {FileId=userFile.Id });
 
 
 

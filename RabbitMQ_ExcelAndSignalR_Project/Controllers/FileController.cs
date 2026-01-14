@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
+using RabbitMQ_ExcelAndSignalR_Project.Hubs;
 using RabbitMQ_ExcelAndSignalR_Project.Models;
 
 namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
@@ -11,9 +13,12 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
     {
         private readonly AppDbContext _context;
 
-        public FileController(AppDbContext context)
+        private readonly IHubContext<MyHub> _hubContext;
+
+        public FileController(AppDbContext context, IHubContext<MyHub> hubContext)// her değişken DI ye geçirilir
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
 
@@ -45,6 +50,27 @@ namespace RabbitMQ_ExcelAndSignalR_Project.Controllers
             userFile.FileStatus=FileStatus.Completed;//dosya durumu tamamlandı olarak güncellendi ENUM YAPISINDAN GELEN DEĞER 
 
             await _context.SaveChangesAsync();//değişiklikleri veritabanına kaydet
+
+
+
+            await _hubContext.Clients.User(userFile.UserId).SendAsync("complated file ");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
             return Ok("Dosya yüklendi");
         }

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RabbitMQ.Client;
+using RabbitMQ_ExcelAndSignalR_Project.Hubs;
 using RabbitMQ_ExcelAndSignalR_Project.Models;
 using RabbitMQ_ExcelAndSignalR_Project.Services;
 
@@ -8,6 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // MVC
 builder.Services.AddControllersWithViews();
+
+//  SignalR
+builder.Services.AddSignalR();
+
 
 // DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
@@ -32,6 +37,7 @@ builder.Services.AddSingleton(sp => new ConnectionFactory
 });
 builder.Services.AddSingleton<RabbitMQPublisher>();
 builder.Services.AddSingleton<RabbitMQClientService>();
+
 
 
 var app = builder.Build();
@@ -79,9 +85,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+//  SignalR Hub
+app.MapHub<MyHub>("/MyHub");
+
 
 // ?? BAÞLANGIÇ CONTROLLER'I ACCOUNT YAPTIK
 app.MapControllerRoute(
